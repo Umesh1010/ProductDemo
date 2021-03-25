@@ -1,0 +1,35 @@
+@input and @output Decorators use..
+
+
+@Input (parent send to child data)
+
+Step 1:  /////////////// parent.component.ts /////////////////
+        
+         export class ParentComponent emplememts OnInit {
+
+         msg ="this is parent calss information...."
+
+         }
+
+Step 2:  /////////////parent.component.html ////////////////
+
+         <child   [item] = "msg"></child>
+
+
+Step 3: /////////child.component.ts /////////////////
+
+        import { Input, OnInit} from '@angular/core';
+
+        export class ChildComponent emplements OnInit{
+
+          @input() item: string;          /// item from parent.component.html
+     }
+
+Step 4: /////////////child.component.htlm //////////////////
+          <p>{{item}} </p>
+
+
+
+
+
+ 

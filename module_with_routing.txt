@@ -1,0 +1,118 @@
+Step 1: //////////////////Create New App/////////////////
+         ng new DemoProject
+
+Step 2: ////////////////Create User Module/////////////////
+
+        ng g module user --routing     //( lazy-loadable feature module)
+
+        src/app/user/user.module.ts            //(The user.module.ts file imports the user-routing.module.ts and user.component.ts files)
+        src/app/user/user-routing.module.ts    //(UserRoutingModule defined in the user-routing.module.ts file.)
+
+
+Step 3: ///////////////////Create Component in Module/////////////////////
+
+        ng g c user/home
+        ng g c user/login
+
+
+Step 4: //////////////////Create model for data modeling/////////////////////
+        models(folder)
+           common-model.ts(file)
+      
+        ///////common-model.ts////////////
+              export interfac Routeconfigure{
+	        path : string,
+                fullUrl : string             
+          }
+
+Step 5 :////////////////Create constant-routing in constant/////////////////////
+        constant(folder)
+            routes.ts(file)
+
+      ///////// routes.ts ////////////
+   *** import {Routeconfigure } from 'src/app/models/common-model';
+
+       export const HomeUrl : Routeconfigure{
+          path : "variable_name_path";
+          get fullUrl(): string{
+               return `/${this.path}`
+            },  
+   };
+
+
+
+
+Step 6: /////////////user-routing.module.ts///////////////      //(Add Route with Component. so update our user-routing module file as like bellow code)
+
+  src/app/user/user-routing.module.ts
+
+		import { NgModule } from '@angular/core';
+                import { Routes, RouterModule } from '@angular/router';
+                import { HomeComponent } from './home/home.component';
+                import { LoginComponent } from './login/login.component';
+                
+        ***    import {HomeUrl, LogUrl} from 'src/app/constant/routes'
+             const routes: Routes = [
+                    {
+                      path : HomeUrl.path, 
+                      component : HomeComponent
+                    },
+                    { 
+                     path : LoginUrl.path,
+                     component : LoginComponent
+                    }
+                    ];
+  
+           @NgModule({
+                imports: [RouterModule.forChild(routes)],
+                exports: [RouterModule]
+               })
+             
+            export class AdminRoutingModule { }
+
+
+
+
+Step 7:  ////////////////// src/app/app.component.html ///////////////////  //(we need to add links of all route with router-outlet)
+
+         <div class="container">
+               <router-outlet></router-outlet>
+         </div>
+
+
+
+Step 8: ///////////////////////src/app/app.routing.module.ts /////////////////////           //( we will simply import our module to module.ts file)
+      ***     import { RouterModule, Routes } from '@angular/router';
+      ***     import { UserModule } from './user/user.module';
+      ***     import { HomeUrl , LoginUrl}   from 'src/app/constant/routes' ;
+
+
+        const routes: Routes = [
+           {    
+                path: HomeUrl.path,
+                  loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+           }  
+   
+          ];
+
+          @NgModule({
+              imports: [RouterModule.forRoot(routes)],
+              exports: [RouterModule]
+           })
+
+        export class AppRoutingModule { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

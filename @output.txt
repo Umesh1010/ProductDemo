@@ -1,0 +1,43 @@
+@Output (child class send data to parent class)
+
+step 1: ///////////child.component.ts //////////
+
+       import { OnInit, Output, EventEmitter} frmo '@angular/core'
+
+         export class ChildComponent implements OnInit{
+         
+         @Output() outputobj:EventEmitter<string> = new EventEmitter();
+
+       
+            childmsg = "Hello Parents";
+
+  	sendData(){
+                  this.outputobj.emit(this.childmsg);
+              }	
+  
+
+       }
+
+Step 2 : ////////// child.component.html //////////////
+
+       <button (click)= "sendData()"><button>
+ 
+
+
+
+Step 3 //////////////// parent.component.html/////////////
+    
+       <child (outputobj)="getData($event)"></child>
+
+
+Step 4 ////////////parent.component.ts////////////////
+
+       getData(data){
+         console.log(data)
+          }
+
+
+
+
+
+
